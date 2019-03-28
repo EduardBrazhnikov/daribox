@@ -1,0 +1,50 @@
+AddDefaultCharset utf-8
+# BEGIN Redirect
+RewriteEngine on
+
+RewriteCond %{HTTP_HOST} .
+RewriteCond %{HTTP_HOST} ^daribox\.hostenko\.com$ [NC]
+RewriteRule (.*) http://daribox.com/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} .
+RewriteCond %{HTTP_HOST} ^www\.daribox\.hostenko\.com$ [NC]
+RewriteRule (.*) http://daribox.com/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} .
+RewriteCond %{HTTP_HOST} ^www\.daribox\.com$ [NC]
+RewriteRule (.*) http://daribox.com/$1 [R=301,L]
+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# END Redirect
+<ifModule mod_expires.c>
+
+ExpiresActive On
+
+# Cache Images
+ExpiresByType image/x-icon "access plus 2592000 seconds"
+ExpiresByType image/jpeg "access plus 2592000 seconds"
+ExpiresByType image/png "access plus 2592000 seconds"
+ExpiresByType image/gif "access plus 2592000 seconds"
+
+# Cache other content types (Flash, CSS, JS, HTML, XML)
+ExpiresByType application/x-shockwave-flash "access plus 2592000 seconds"
+ExpiresByType text/css "access plus 604800 seconds"
+ExpiresByType text/javascript "access plus 2592000 seconds"
+ExpiresByType application/javascript "access plus 2592000 seconds"
+ExpiresByType application/x-javascript "access plus 2592000 seconds"
+ExpiresByType text/html "access plus 600 seconds"
+ExpiresByType application/xhtml+xml "access plus 600 seconds"
+
+</ifModule>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php
+ErrorDocument 404 /eror404.html
+
+
+ 
